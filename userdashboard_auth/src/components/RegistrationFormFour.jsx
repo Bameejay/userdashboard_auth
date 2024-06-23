@@ -17,7 +17,7 @@ const RegistrationFormFour = () => {
       streetAddress: Yup.string().required('Street address is required'),
       apartment: Yup.string(),
       city: Yup.string().required('City is required'),
-      state: Yup.string().required('State is required'),
+      state: Yup.string().required('State is required'),  
       zipCode: Yup.string().required('Zip code is required'),
     }),
     onSubmit: values => {
@@ -29,13 +29,15 @@ const RegistrationFormFour = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <div className="flex justify-between items-center mb-6">
-          <div className="flex space-x-4">
-            <span className="px-4 py-2 border-b-2 border-green-500">4 of 4</span>
+        <div className="flex mb-6">
+          <div className="flex gap-4 items-center">
+          <h2 className="text-xl font-semibold mb-6">Add address <span className=" text-green-500 text-xs ml-3">4 of 4</span></h2>
           </div>
-          <button className="text-gray-400">&times;</button>
+          <div className='ml-auto'>
+            <button className="text-black text-xl">&times;</button>
+          </div>
         </div>
-        <h2 className="text-xl font-semibold mb-6">Add address</h2>
+        
         <form onSubmit={formik.handleSubmit}>
           <div className="mb-4">
             <input 
@@ -45,7 +47,7 @@ const RegistrationFormFour = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.streetAddress}
-              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${formik.errors.streetAddress && formik.touched.streetAddress ? 'border-red-500' : 'focus:ring-purple-500'}`} 
+              className={`w-full px-4 py-4 border text-xs rounded-lg focus:outline-none focus:ring-2 ${formik.errors.streetAddress && formik.touched.streetAddress ? 'border-red-500' : 'focus:ring-purple-500'}`} 
             />
             {formik.touched.streetAddress && formik.errors.streetAddress ? (
               <p className="text-red-500 text-sm">{formik.errors.streetAddress}</p>
@@ -59,7 +61,7 @@ const RegistrationFormFour = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.apartment}
-              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${formik.errors.apartment && formik.touched.apartment ? 'border-red-500' : 'focus:ring-purple-500'}`} 
+              className={`w-full px-4 py-4 text-xs border rounded-lg focus:outline-none focus:ring-2 ${formik.errors.apartment && formik.touched.apartment ? 'border-red-500' : 'focus:ring-purple-500'}`} 
             />
             {formik.touched.apartment && formik.errors.apartment ? (
               <p className="text-red-500 text-sm">{formik.errors.apartment}</p>
@@ -73,7 +75,7 @@ const RegistrationFormFour = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.city}
-              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${formik.errors.city && formik.touched.city ? 'border-red-500' : 'focus:ring-purple-500'}`} 
+              className={`w-full px-4  border py-4 text-xs rounded-lg focus:outline-none focus:ring-2 ${formik.errors.city && formik.touched.city ? 'border-red-500' : 'focus:ring-purple-500'}`} 
             />
             {formik.touched.city && formik.errors.city ? (
               <p className="text-red-500 text-sm">{formik.errors.city}</p>
@@ -87,7 +89,7 @@ const RegistrationFormFour = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.state}
-              className={`w-1/2 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${formik.errors.state && formik.touched.state ? 'border-red-500' : 'focus:ring-purple-500'}`} 
+              className={`w-1/2 px-4 py-4 text-xs border rounded-lg focus:outline-none focus:ring-2 ${formik.errors.state && formik.touched.state ? 'border-red-500' : 'focus:ring-purple-500'}`} 
             />
             <input 
               type="text" 
@@ -96,7 +98,7 @@ const RegistrationFormFour = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.zipCode}
-              className={`w-1/2 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${formik.errors.zipCode && formik.touched.zipCode ? 'border-red-500' : 'focus:ring-purple-500'}`} 
+              className={`w-1/2 px-4 py-4 text-xs border rounded-lg focus:outline-none focus:ring-2 ${formik.errors.zipCode && formik.touched.zipCode ? 'border-red-500' : 'focus:ring-purple-500'}`} 
             />
           </div>
           {formik.touched.state && formik.errors.state ? (
@@ -106,7 +108,7 @@ const RegistrationFormFour = () => {
             <p className="text-red-500 text-sm">{formik.errors.zipCode}</p>
           ) : null}
           <div className="mb-6">
-            <button type="submit" className="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700">Save information</button>
+            <button type="submit" className="w-full text-xs bg-[#5932ea] text-white py-4 rounded-lg hover:bg-[#6e36ff]">Save information</button>
           </div>
         </form>
       </div>
