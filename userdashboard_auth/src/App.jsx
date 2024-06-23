@@ -1,11 +1,17 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import RegistrationFormOne from './components/RegistrationFormOne';
+import RegistrationFormTwo from './components/RegistrationFormTwo';
 
-
-const App = () => {
-  return ( 
-    <div className="bg-black">
-          <p className="text-white">I will like to know you</p>
-    </div>
-   );
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/register1" element={<RegistrationFormOne />} />
+        <Route path="/register2" element={<RegistrationFormTwo />} />
+        <Route path="/" element={<RegistrationFormOne />} />
+      </Routes>
+    </Router>
+  );
 }
- 
+
 export default App;
