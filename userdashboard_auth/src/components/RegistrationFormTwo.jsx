@@ -1,7 +1,10 @@
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { useNavigate } from 'react-router-dom';
 
 const RegistrationFormTwo = () => {
+  const navigate = useNavigate();
+
   const formik = useFormik({
     initialValues: {
       fullName: '',
@@ -16,8 +19,8 @@ const RegistrationFormTwo = () => {
       birthday: Yup.string(),
     }),
     onSubmit: values => {
-      console.log(values);
-      // Handle form submission
+      console.log('Personal information submitted:', values);
+      navigate('/register3'); // Navigate to the third form
     },
   });
 
@@ -25,10 +28,12 @@ const RegistrationFormTwo = () => {
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl font-semibold">Personal information</h2>
-          <span className="text-green-600">2 of 3</span>
+          <div className="flex space-x-4">
+            <span className="px-4 py-2 border-b-2 border-green-500">2 of 3</span>
+          </div>
           <button className="text-gray-400">&times;</button>
         </div>
+        <h2 className="text-xl font-semibold mb-6">Personal information</h2>
         <form onSubmit={formik.handleSubmit}>
           <div className="mb-4">
             <input 
@@ -45,24 +50,29 @@ const RegistrationFormTwo = () => {
             ) : null}
           </div>
           <div className="mb-4">
+            <label className="block text-gray-700">Gender</label>
             <div className="flex space-x-4">
               <label className="flex items-center">
                 <input 
-                  type="radio"
-                  name="gender"
-                  value="male"
+                  type="radio" 
+                  name="gender" 
+                  value="Male"
                   onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
                   className="mr-2"
+                  checked={formik.values.gender === 'Male'}
                 />
                 Male
               </label>
               <label className="flex items-center">
                 <input 
-                  type="radio"
-                  name="gender"
-                  value="female"
+                  type="radio" 
+                  name="gender" 
+                  value="Female"
                   onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
                   className="mr-2"
+                  checked={formik.values.gender === 'Female'}
                 />
                 Female
               </label>
@@ -73,7 +83,7 @@ const RegistrationFormTwo = () => {
           </div>
           <div className="mb-4">
             <input 
-              type="text"
+              type="text" 
               name="phoneNumber"
               placeholder="Phone number"
               onChange={formik.handleChange}
@@ -87,14 +97,17 @@ const RegistrationFormTwo = () => {
           </div>
           <div className="mb-4">
             <input 
-              type="text"
+              type="date" 
               name="birthday"
-              placeholder="Birthday (Optional)"
+              placeholder="Birthday"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.birthday}
               className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${formik.errors.birthday && formik.touched.birthday ? 'border-red-500' : 'focus:ring-purple-500'}`} 
             />
+            {formik.touched.birthday && formik.errors.birthday ? (
+              <p className="text-red-500 text-sm">{formik.errors.birthday}</p>
+            ) : null}
           </div>
           <div className="mb-6">
             <button type="submit" className="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700">Save information</button>

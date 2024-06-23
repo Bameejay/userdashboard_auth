@@ -1,14 +1,15 @@
-import { useState } from 'react';
+
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faApple, faFacebook, faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { useState } from 'react';
 
-const RegistrationFormOne = () => {
+const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
@@ -20,27 +21,20 @@ const RegistrationFormOne = () => {
     initialValues: {
       email: '',
       password: '',
-      promotions: false,
     },
     validationSchema: Yup.object({
-      email: Yup.string()
-        .email('Invalid email address')
-        .required('Email is required'),
-      password: Yup.string()
-        .min(8, 'Password must be at least 8 characters')
-        .required('Password is required'),
+      email: Yup.string().email('Invalid email address').required('Email is required'),
+      password: Yup.string().required('Password is required'),
     }),
     onSubmit: values => {
-      createUserWithEmailAndPassword(auth, values.email, values.password)
-        .then((userCredential) => {
+      signInWithEmailAndPassword(auth, values.email, values.password)
+        .then(userCredential => {
           const user = userCredential.user;
-          console.log('User registered:', user);
-          navigate('/register2'); // Navigate to the second form
+          console.log('User logged in:', user);
+          navigate('/dashboard');
         })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          console.error('Error registering user:', errorCode, errorMessage);
+        .catch(error => {
+          console.error('Error logging in:', error.message);
         });
     },
   });
@@ -50,8 +44,8 @@ const RegistrationFormOne = () => {
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <div className="flex justify-between items-center mb-6">
           <div className="flex space-x-4">
-            <button className="px-4 py-2 bg-transparent border-b-2 border-pink-500">Register</button>
-            <button className="px-4 py-2 bg-transparent">Log in</button>
+            <button className="px-4 py-2 bg-transparent">Register</button>
+            <button className="px-4 py-2 bg-transparent border-b-2 border-pink-500">Log in</button>
           </div>
           <button className="text-gray-400">&times;</button>
         </div>
@@ -66,36 +60,36 @@ const RegistrationFormOne = () => {
             <FontAwesomeIcon icon={faGoogle} />
           </button>
         </div>
-        <p className="text-center text-gray-500 mb-6">or register with email</p>
+        <p className="text-center text-gray-500 mb-6">or login with email</p>
         <form onSubmit={formik.handleSubmit}>
           <div className="mb-4">
-            <input 
-              type="email" 
+            <input
+              type="email"
               name="email"
               placeholder="Email address"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.email}
-              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${formik.errors.email && formik.touched.email ? 'border-red-500' : 'focus:ring-purple-500'}`} 
+              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${formik.errors.email && formik.touched.email ? 'border-red-500' : 'focus:ring-purple-500'}`}
             />
             {formik.touched.email && formik.errors.email ? (
               <p className="text-red-500 text-sm">{formik.errors.email}</p>
             ) : null}
           </div>
           <div className="mb-4 relative">
-            <input 
-              type={showPassword ? "text" : "password"}
+            <input
+              type={showPassword ? 'text' : 'password'}
               name="password"
               placeholder="Password"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.password}
-              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${formik.errors.password && formik.touched.password ? 'border-red-500' : 'focus:ring-purple-500'}`} 
+              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${formik.errors.password && formik.touched.password ? 'border-red-500' : 'focus:ring-purple-500'}`}
             />
             {formik.touched.password && formik.errors.password ? (
               <p className="text-red-500 text-sm">{formik.errors.password}</p>
             ) : null}
-            <span 
+            <span
               className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 cursor-pointer"
               onClick={togglePasswordVisibility}
             >
@@ -103,26 +97,23 @@ const RegistrationFormOne = () => {
             </span>
           </div>
           <div className="mb-6">
-            <button type="submit" className="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700">Create account</button>
+            <button type="submit" className="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700">Login to Dashboard</button>
           </div>
           <div className="flex items-center mb-4">
-            <input 
+            <input
               type="checkbox"
-              name="promotions"
-              id="promotions"
+              name="rememberMe"
+              id="rememberMe"
               onChange={formik.handleChange}
-              checked={formik.values.promotions}
-              className="mr-2" 
+              checked={formik.values.rememberMe}
+              className="mr-2"
             />
-            <label htmlFor="promotions" className="text-gray-500">Send me news and promotions</label>
+            <label htmlFor="rememberMe" className="text-gray-500">Remember me</label>
           </div>
-          <p className="text-center text-gray-500 text-sm">
-            By continuing I agree with the <a href="#" className="text-blue-500">Terms & Conditions</a>, <a href="#" className="text-blue-500">Privacy Policy</a>
-          </p>
         </form>
       </div>
     </div>
   );
 };
 
-export default RegistrationFormOne;
+export default Login;
